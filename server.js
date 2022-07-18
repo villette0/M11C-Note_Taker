@@ -1,84 +1,71 @@
-const express = require('express');
+const express = require("express");
 const PORT = process.env.port || 3001;
 const app = express();
 // native node utility
-const path = require('path');
-const oldNotes = require('./db/db.json');
+const path = require("path");
+const oldNotes = require("./db/db.json");
 // Helper method for generating unique ids
-const uuid = require('./helpers/uuid');
+const uuid = require("./helpers/uuid");
+const fs = require("fs");
 
+// Middleware
+//Allows express to use json format
+app.use(express.json());
+//Sends request to user from server. Allows post/delete/put to work.
+app.use(express.urlencoded({ extended: true }));
+//Applies css, html files the correct way. Allows us to read static files.
+app.use(express.static("public"));
 
 // GET request for notes page
-app.get('/notes', (req, res) => {
-    let p = path.join(__dirname, './public/notes.html');
-    res.sendFile(p);
+app.get("/notes", (req, res) => {
+  let p = path.join(__dirname, "./public/notes.html");
+  res.sendFile(p);
 });
 
-//GET request for homepage
-app.get('/*', (req, res) => {
-    let p = path.join(__dirname, './public/index.html');
-    res.sendFile(p);
-});
-
-
-app.get('/api/notes', (req, res) => {
+app.get("/api/notes", (req, res) => {
   res.status(200).json(oldNotes);
 });
 
-
 // POST request to add a review
-app.post('/api/notes', (req, res) => {
-    // Log that a POST request was received
-    console.info(`${req.method} request received to add a note`);
+app.post("/api/notes", (req, res) => {
+  // Log that a POST request was received
+  console.info(`${req.method} request received to add a note`);
+
+  // Destructuring assignment for the items in req.body
+  const { title, text } = req.body;
+
+  // If all the required properties are present
+  if (title && text) {
+    // Variable for the object we will save
+    const newNote = {
+      title,
+      text,
+      note_id: uuid(),
+    };
+
+    oldNotes.push(newNote);
+    fs.writeFileSync("./db/db.json", JSON.stringify(oldNotes));
+
+    const response = {
+      status: "success",
+      body: newNote,
+    };
+
+    let p = path.join(__dirname, "./db/db.json");
+    res.sendFile(p);
+  } 
   
-    // Destructuring assignment for the items in req.body
-    const { title, text } = req.body;
-  
-    // If all the required properties are present
-    if (title && text) {
-      // Variable for the object we will save
-      const newNote = {
-        title,
-        text,
-        note_id: uuid(),
-      };
-  
-      // Obtain existing notes
-      fs.readFile('./db/db.json', 'utf8', (err, data) => {
-        if (err) {
-          console.error(err);
-        } else {
-          // Convert string into JSON object
-          const parsedNotes = JSON.parse(data);
-  
-          // Add a new note
-          parsedNotes.push(newNote);
-  
-          // Write updated notes back to the file
-          fs.writeFile(
-            './db/db.json',
-            JSON.stringify(parsedNotes, null, 4),
-            (writeErr) =>
-              writeErr
-                ? console.error(writeErr)
-                : console.info('Successfully updated notes!')
-          );
-        }
-      });
-  
-      const response = {
-        status: 'success',
-        body: newNote,
-      };
-  
-      console.log(response);
-      res.status(201).json(response);
-    } else {
-      res.status(500).json('Error in posting note');
-    }
-  });
+  else {
+    res.status(500).json("Incorrect input");
+  }
+});
+
+//GET request for homepage
+app.get("*", (req, res) => {
+  let p = path.join(__dirname, "./public/index.html");
+  res.sendFile(p);
+});
 
 app.listen(PORT, () =>
   console.log(`Express server listening on port ${PORT}!`)
 );
-
