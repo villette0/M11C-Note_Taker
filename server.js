@@ -3,7 +3,7 @@ const PORT = process.env.port || 3001;
 const app = express();
 // native node utility
 const path = require('path');
-const pulls = require('./db/db.json');
+const oldNotes = require('./db/db.json');
 // Helper method for generating unique ids
 const uuid = require('./helpers/uuid');
 
@@ -22,17 +22,7 @@ app.get('/*', (req, res) => {
 
 
 app.get('/api/notes', (req, res) => {
-    // absolute path to the file
-    //let p = path.join(__dirname, './db/db.json');
-
-    // res.json(pulls);
-    // console.log(pulls);
-
-      // Send a message to the client
-  res.json(`${req.method} request received to get notes`);
-
-  // Log our request to the terminal
-  console.info(`${req.method} request received to get notes`);
+  res.status(200).json(oldNotes);
 });
 
 
@@ -53,7 +43,7 @@ app.post('/api/notes', (req, res) => {
         note_id: uuid(),
       };
   
-      // Obtain existing reviews
+      // Obtain existing notes
       fs.readFile('./db/db.json', 'utf8', (err, data) => {
         if (err) {
           console.error(err);
@@ -61,10 +51,10 @@ app.post('/api/notes', (req, res) => {
           // Convert string into JSON object
           const parsedNotes = JSON.parse(data);
   
-          // Add a new review
+          // Add a new note
           parsedNotes.push(newNote);
   
-          // Write updated reviews back to the file
+          // Write updated notes back to the file
           fs.writeFile(
             './db/db.json',
             JSON.stringify(parsedNotes, null, 4),
