@@ -29,17 +29,17 @@ app.get('/api/notes', (req, res) => {
     // console.log(pulls);
 
       // Send a message to the client
-  res.json(`${req.method} request received to get reviews`);
+  res.json(`${req.method} request received to get notes`);
 
   // Log our request to the terminal
-  console.info(`${req.method} request received to get reviews`);
+  console.info(`${req.method} request received to get notes`);
 });
 
 
 // POST request to add a review
 app.post('/api/notes', (req, res) => {
     // Log that a POST request was received
-    console.info(`${req.method} request received to add a review`);
+    console.info(`${req.method} request received to add a note`);
   
     // Destructuring assignment for the items in req.body
     const { title, text } = req.body;
