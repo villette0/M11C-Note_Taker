@@ -61,12 +61,13 @@ app.post("/api/notes", (req, res) => {
 app.delete("/api/notes/:id", (req, res) => {
   var id = req.params.id;
 
-  const nowNotes = (JSON.parse(fs.readFileSync("./db/db.json"))).filter((oldNote) => {
+  // (JSON.parse(fs.readFileSync("./db/db.json")))
+  const subtractedNotes = oldNotes.filter((oldNote) => {
     return oldNote.id != id;
   });
 
-  fs.writeFileSync("./db/db.json", JSON.stringify(nowNotes, null, 4));
-  res.json(nowNotes);
+  fs.writeFileSync("./db/db.json", JSON.stringify(subtractedNotes, null, 4));
+  res.json(subtractedNotes);
 });
 
 
