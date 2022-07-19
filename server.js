@@ -26,17 +26,14 @@ app.get("/api/notes", (req, res) => {
   res.status(200).json(oldNotes);
 });
 
-// POST request to add a review
+// POST request to add a note
 app.post("/api/notes", (req, res) => {
-  // Log that a POST request was received
   console.info(`${req.method} request received to add a note`);
 
   // Destructuring assignment for the items in req.body
   const { title, text } = req.body;
 
-  // If all the required properties are present
   if (title && text) {
-    // Variable for the object we will save
     const newNote = {
       title,
       text,
@@ -46,11 +43,7 @@ app.post("/api/notes", (req, res) => {
     oldNotes.push(newNote);
     fs.writeFileSync("./db/db.json", JSON.stringify(oldNotes));
 
-    const response = {
-      status: "success",
-      body: newNote,
-    };
-
+    //Display the note file again
     let p = path.join(__dirname, "./db/db.json");
     res.sendFile(p);
   } 

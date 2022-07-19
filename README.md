@@ -1,10 +1,10 @@
 # Note Taker
 
 ## Application Description
-This app can be used to write and save notes. It uses an Express.js back end and saves and retrieves note data from a JSON file. It is deployed to Heroku.
+This app can be used to write and save notes. Upon pressing 'Get Started' the user is taken to a page where they can write a title and note. Then they can press the save icon to save the not to the lefthand panel and access it later by clicking it there.
 
 ## Challenge Description
-
+It uses an Express.js back end and saves and retrieves note data from a JSON file. The challenge required the server.js file to be written to connect the backend and frontend. This was accomplished via requiring paths and node modules at the top, then using middleware, get requests, post requests, and port listening. It is deployed to Heroku.
 
 ## User Story
 
@@ -33,19 +33,12 @@ THEN I am presented with empty fields to enter a new note title and the note’s
 ```
 
 ## Tasks Completed
-The JavaScript documents include:
-* 
-* 
-* Comments
+The Server JavaScript document includes:
+* Node Modules such as Express and File System
+* Middleware, get requests, and post requests
+* Ability to add new notes if a title and message is included
+* Unique ID for each note is generated
 
-The HTML documents include:
-* 
-* 
-* Comments
-
-The CSS documents include:
-* 
-* Node Modules such as Express
 
 ## Languages
 - JavaScript
@@ -53,14 +46,13 @@ The CSS documents include:
 - CSS
 
 ## Links
-* [Screen Recording of Application](https://drive.google.com/...)
+* [Deployed Application](https://heroku.com/...)
 
 * [Repository](https://github.com/villettec/M11C-Note_Taker)
 
 ## Screenshots
 ![image](./readme-screenshot.png)
 
-![image](./readme-screenshot-2.png)
 
 ## Credit
 Villette Comfort
