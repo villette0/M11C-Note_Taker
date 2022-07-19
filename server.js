@@ -60,7 +60,6 @@ app.post("/api/notes", (req, res) => {
 
 app.delete("/api/notes/:id", (req, res) => {
   var id = req.params.id;
-
   if (id != null && id != undefined) {
     const nowNotes = oldNotes.filter((oldNote) => {
       return oldNote.id != id;
