@@ -50,7 +50,7 @@ app.post("/api/notes", (req, res) => {
     };
 
     oldNotes.push(newNote);
-    fs.writeFileSync("./db/db.json", JSON.stringify(oldNotes));
+    fs.writeFileSync("./db/db.json", JSON.stringify(oldNotes, null, 4));
 
     res.json(newNote);
   } else {
@@ -60,17 +60,15 @@ app.post("/api/notes", (req, res) => {
 
 app.delete("/api/notes/:id", (req, res) => {
   var id = req.params.id;
-  if (id != null && id != undefined) {
-    const nowNotes = oldNotes.filter((oldNote) => {
-      return oldNote.id != id;
-    });
 
-    fs.writeFileSync("./db/db.json", JSON.stringify(nowNotes));
-    res.json(nowNotes);
-  } else {
-    res.status(500).json("Missing ID");
-  }
+  const nowNotes = (JSON.parse(fs.readFileSync("./db/db.json"))).filter((oldNote) => {
+    return oldNote.id != id;
+  });
+
+  fs.writeFileSync("./db/db.json", JSON.stringify(nowNotes, null, 4));
+  res.json(nowNotes);
 });
+
 
 app.listen(PORT, () =>
   console.log(`Express server listening on port ${PORT}!`)
