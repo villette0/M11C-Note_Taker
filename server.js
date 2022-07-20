@@ -4,7 +4,7 @@ const fs = require("fs");
 // native node utility
 const path = require("path");
 
-const PORT = process.env.port || 3001;
+const PORT = process.env.PORT || 3001;
 
 const oldNotes = require("./db/db.json");
 // Helper method for generating unique ids
