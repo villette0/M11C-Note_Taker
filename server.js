@@ -6,8 +6,15 @@ const path = require("path");
 
 const PORT = process.env.PORT || 3001;
 
-const oldNotes = require("./db/db.json");
-//oldNotes can also be replaced with ?: (JSON.parse(fs.readFileSync("./db/db.json")))
+var data;
+var oldNotes;
+
+//Read the db file fresh
+const oldNotesFunc = () => {
+  data = fs.readFileSync("./db/db.json");
+  oldNotes = JSON.parse(data);
+}
+oldNotesFunc();
 
 // Helper method for generating unique ids
 const uuid = require("./helpers/uuid");
@@ -27,6 +34,7 @@ app.get("/notes", (req, res) => {
 });
 
 app.get("/api/notes", (req, res) => {
+  oldNotesFunc();
   res.status(200).json(oldNotes);
 });
 
@@ -51,6 +59,7 @@ app.post("/api/notes", (req, res) => {
       id: uuid(),
     };
 
+    oldNotesFunc();
     oldNotes.push(newNote);
     fs.writeFileSync("./db/db.json", JSON.stringify(oldNotes, null, 4));
 
@@ -63,6 +72,7 @@ app.post("/api/notes", (req, res) => {
 app.delete("/api/notes/:id", (req, res) => {
   var id = req.params.id;
 
+  oldNotesFunc();
   const subtractedNotes = oldNotes.filter((oldNote) => {
     return oldNote.id != id;
   });
