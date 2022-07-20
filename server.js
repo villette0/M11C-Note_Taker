@@ -7,6 +7,8 @@ const path = require("path");
 const PORT = process.env.PORT || 3001;
 
 const oldNotes = require("./db/db.json");
+//oldNotes can also be replaced with ?: (JSON.parse(fs.readFileSync("./db/db.json")))
+
 // Helper method for generating unique ids
 const uuid = require("./helpers/uuid");
 
@@ -61,16 +63,16 @@ app.post("/api/notes", (req, res) => {
 app.delete("/api/notes/:id", (req, res) => {
   var id = req.params.id;
 
-  // (JSON.parse(fs.readFileSync("./db/db.json")))
   const subtractedNotes = oldNotes.filter((oldNote) => {
     return oldNote.id != id;
   });
 
   fs.writeFileSync("./db/db.json", JSON.stringify(subtractedNotes, null, 4));
   res.json(subtractedNotes);
+  console.log(`Note ${id} has been deleted.`)
 });
 
 
 app.listen(PORT, () =>
-  console.log(`Express server listening on port ${PORT}!`)
+  console.log(`Express server listening on port ${PORT}.`)
 );
