@@ -8,7 +8,6 @@ const PORT = process.env.PORT || 3001;
 
 var data;
 var oldNotes;
-
 //Read the db file fresh
 const oldNotesFunc = () => {
   data = fs.readFileSync("./db/db.json");
@@ -39,7 +38,7 @@ app.get("/api/notes", (req, res) => {
 });
 
 //GET request for homepage.
-//This has to go at the bottom of other get requestsbecause * overrides and means all other /endings.
+//This has to go at the bottom of other get requests because * overrides and means all other /endings.
 app.get("*", (req, res) => {
   let p = path.join(__dirname, "./public/index.html");
   res.sendFile(p);
@@ -59,7 +58,7 @@ app.post("/api/notes", (req, res) => {
       id: uuid(),
     };
 
-    oldNotesFunc();
+    // oldNotesFunc();
     oldNotes.push(newNote);
     fs.writeFileSync("./db/db.json", JSON.stringify(oldNotes, null, 4));
 
@@ -72,7 +71,7 @@ app.post("/api/notes", (req, res) => {
 app.delete("/api/notes/:id", (req, res) => {
   var id = req.params.id;
 
-  oldNotesFunc();
+  // oldNotesFunc();
   const subtractedNotes = oldNotes.filter((oldNote) => {
     return oldNote.id != id;
   });
