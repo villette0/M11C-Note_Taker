@@ -46,7 +46,7 @@ The Server JavaScript document includes:
 - CSS
 
 ## Links
-* [Deployed Application](https://heroku.com/...)
+* [Deployed Application](https://notetaker1919.herokuapp.com/)
 
 * [Repository](https://github.com/villettec/M11C-Note_Taker)
 
