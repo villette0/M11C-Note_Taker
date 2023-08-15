@@ -48,13 +48,9 @@ The Server JavaScript document includes:
 ## Links
 * [Deployed Application](https://notetaker1919.herokuapp.com/)
 
-* [Repository](https://github.com/villettec/M11C-Note_Taker)
+* [Repository](https://github.com/villette0/M11C-Note_Taker)
 
 ## Screenshots
 ![image](./readme-screenshot.png)
 
 
-## Credit
-Villette Comfort
-
-villette@live.com
